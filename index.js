@@ -1,36 +1,30 @@
 // data loaders
+let currentCategory = "all"
+
 async function loadCategories() {
     try {
         const response = await fetch("https://fakestoreapi.com/products/categories")
         const data = await response.json()
         console.log("Categies fetched succesfully")
         displayCats(data)
-        // return data
     } catch (error) {
         console.log("Failed to load category data: ", error)
     }
 }
 
-async function loadProducts() {
+async function loadProducts(category = "all") {
+    let url = "https://fakestoreapi.com/products"
+    if (category !== "all") { url = `https://fakestoreapi.com/products/category/${category}` }
     try {
-        const response = await fetch("https://fakestoreapi.com/products")
+        const response = await fetch(url)
         const data = await response.json()
         console.log("products fetched succesfully")
         displayProducts(data)
-        // return data
     } catch (error) {
         console.log("Failed to load Products", error)
     }
 }
 
-
-
-// data
-// const categories = await loadCategories().then(data => displayCats(data))
-// const products = await loadProducts()
-
-// console.log(categories)
-// console.log(products)
 
 
 const catContainer = document.getElementById("catContainer")
@@ -51,7 +45,7 @@ function displayCats(cats) {
             "rounded-full",
             "font-semibold"
         )
-        catBadge.onclick(()=>filterProducts(cat))
+        catBadge.onclick = () => loadProducts(cat)
         catContainer.append(catBadge)
     });
 }

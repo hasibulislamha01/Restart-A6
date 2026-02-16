@@ -72,9 +72,18 @@
     </div>
 
     <!-- bannar -->
-    <h1 class="text-3xl font-bold underline text-red-500">
-        Hello world!
-    </h1>
+    <div class="hero min-h-screen" style="background-image: url(/public/Assets/banner-image.png);">
+        <div class="hero-overlay"></div>
+        <div class="hero-content text-neutral-content text-left">
+            <div class="max-w-md">
+                <h1 class="mb-5 text-5xl font-bold">Best collection for you</h1>
+                <p class="mb-5">
+                    Discover the latest trends in fasion. Shop with confidence and style at SwiftCart.
+                </p>
+                <button class="btn btn-primary">Shop Now</button>
+            </div>
+        </div>
+    </div>
 
     <!-- why choose us -->
     <div class="text-center my-16">
@@ -83,7 +92,7 @@
             We provide the best shopping experience with top notch services.
         </p>
     </div>
-
+    <!-- why choose us cards -->
     <div class="max-w-[980px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
 
         <div class="card bg-base-100 shadow-sm relative">
@@ -135,6 +144,16 @@
 
     </div>
 
+    <!-- categories -->
+    <div id="catContainer"
+        class="mt-20 mb-8 flex flex-wrap items-center justify-center gap-3 md:gap-5 lg:gap-8 *:capitalize *:border-[rgb(var(--primary))] *:text-[rgb(var(--primary))] *:cursor-pointer *:hover:scale-95 *:hover:bg-[rgb(var(--primary))] *:hover:text-white *:transition-all *:duration-200 *:active:scale-90">
+        
+    </div>
+
+    <!-- products -->
+    <div id="prodContainer"
+    class="max-w-[980px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-8"
+    ></div>
 
     <!-- Footer -->
     <footer class="footer sm:footer-horizontal p-10 mt-16 bg-[#1E2939] text-white">
@@ -159,7 +178,8 @@
             <a class="link link-hover">Cookie policy</a>
         </nav>
     </footer>
-    <footer class="footer  bg-[#1E2939] text-white border-gray-600 border-t px-10 py-4 flex items-center justify-between">
+    <footer
+        class="footer  bg-[#1E2939] text-white border-gray-600 border-t px-10 py-4 flex items-center justify-between">
         <aside class="flex items-center">
             <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
                 clip-rule="evenodd" class="fill-current">
@@ -202,6 +222,7 @@
             </div>
         </nav>
     </footer>
+    <script type="module" src="index.js"></script>
 </body>
 
 </html>

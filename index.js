@@ -1,5 +1,10 @@
-// data loaders
-let currentCategory = "all"
+/**
+ * -----------------------------------------------------------
+ * ------------------ DATA LOADER FUNCTIONS ------------------
+ * -----------------------------------------------------------
+ */
+
+// let cart = []
 
 async function loadCategories() {
     try {
@@ -25,11 +30,28 @@ async function loadProducts(category = "all") {
     }
 }
 
-
+async function loadSpecificProduct(id) {
+    if (!id) { return }
+    let url = `https://fakestoreapi.com/products/${id}`
+    try {
+        const res = await fetch(url)
+        const data = await res.json()
+        console.log("Success: ", data)
+        displayModal(data)
+    } catch (error) {
+        console.error("Failed to load specific product with id", id)
+    }
+}
 
 const catContainer = document.getElementById("catContainer")
 const prodContainer = document.getElementById("prodContainer")
 
+
+/**
+ * -----------------------------------------------------------
+ * ---------DATA >>>>   DISPLAYER   <<< FUNCTIONS ------------
+ * -----------------------------------------------------------
+ */
 
 function displayCats(cats) {
     catContainer.innerHTML = ""
@@ -48,6 +70,13 @@ function displayCats(cats) {
         catBadge.onclick = () => loadProducts(cat)
         catContainer.append(catBadge)
     });
+}
+
+const displayModal = (product) => {
+    console.log("found product with id ", product)
+    const detailsBox = document.getElementById("detailsContainer")
+    
+    document.getElementById("my_modal_5").showModal()
 }
 
 function displayProducts(products) {
@@ -79,23 +108,14 @@ function displayProducts(products) {
                 <p>${description}</p>
                 <div class="card-actions mt-3 flex items-center justify-evenly *:h-8 *:w-32">
                     
-                    
-                    <!-- Open the modal using ID.showModal() method -->
-                        <button class="btn btn-outline text-gray-600 hover:text-black hover:scale-95 active:scale-90 transition-all duration-200" onclick="my_modal_2.showModal()">
-                            <i class="fa-regular fa-eye";"></i>
-                            Details
-                        </button>
-                        <dialog id="my_modal_2" class="modal">
-                        <div class="modal-box">
-                            <h3 class="text-lg font-bold">Hello!</h3>
-                            <p class="py-4">Press ESC key or click outside to close</p>
-                        </div>
-                        <form method="dialog" class="modal-backdrop">
-                            <button>close</button>
-                        </form>
-                        </dialog>
+                    <button
+        class="btn btn-outline text-gray-600 hover:text-black hover:scale-95 active:scale-90 transition-all duration-200"
+        onclick="loadSpecificProduct(${product?.id})">
+        <i class="fa-regular fa-eye"></i>
+        Details
+    </button>                    
 
-                    <button class="btn bg-[rgb(var(--primary))] text-white hover:scale-95 active:scale-90 transition-all duration-200">ATC</button>
+                    <button class="btn bg-[rgb(var(--primary))] text-white hover:scale-95 active:scale-90 transition-all duration-200" onclick="()=>addToCart(${product})">ATC</button>
                 </div>
             </div>
         </div>  
@@ -103,6 +123,12 @@ function displayProducts(products) {
         prodContainer?.append(prodCard)
     })
 }
+
+function addToCart(product) {
+    cart.push(product)
+}
+
+
 
 loadCategories()
 loadProducts()

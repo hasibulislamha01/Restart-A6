@@ -147,13 +147,12 @@
     <!-- categories -->
     <div id="catContainer"
         class="mt-20 mb-8 flex flex-wrap items-center justify-center gap-3 md:gap-5 lg:gap-8 *:capitalize *:border-[rgb(var(--primary))] *:text-[rgb(var(--primary))] *:cursor-pointer *:hover:scale-95 *:hover:bg-[rgb(var(--primary))] *:hover:text-white *:transition-all *:duration-200 *:active:scale-90">
-        
+
     </div>
 
     <!-- products -->
     <div id="prodContainer"
-    class="max-w-[980px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-8"
-    ></div>
+        class="max-w-[980px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-8"></div>
 
     <!-- Footer -->
     <footer class="footer sm:footer-horizontal p-10 mt-16 bg-[#1E2939] text-white">
@@ -222,7 +221,53 @@
             </div>
         </nav>
     </footer>
-    <script type="module" src="index.js"></script>
+
+    <!-- Open the modal using ID.showModal() method -->
+
+    <dialog id="my_modal_5" class="modal">
+        <div class="modal-box w-auto">
+            <div id="detailsContainer" class="space-y-3">
+
+                <div class="flex flex-col md:flex-row items-center gap-4 h-full border">
+                    <img class="object-cover max-w-60 rounded-md"
+                        src="https://img.freepik.com/free-photo/smiley-man-posing-grey-wall_23-2148448892.jpg?semt=ais_hybrid&w=740&q=80" />
+
+                    <div class="h-full flex flex-col justify-between border">
+
+                        <div class="badge badge-soft badge-info">Accessories</div>
+                        <div>
+                            <h1 class="text-3xl font-bold">title: product title here</h1>
+
+                            <div class="flex items-center gap-3">
+                                <div class="rating rating-xs">
+                                    <div class="mask mask-star bg-orange-500" name="rating-2" aria-label="1 star"></div>
+                                    <div class="mask mask-star bg-orange-500" name="rating-2" aria-label="2 star"></div>
+                                    <div class="mask mask-star bg-orange-500" name="rating-2" aria-label="3 star"
+                                        aria-current="true"></div>
+                                    <div class="mask mask-star bg-orange-500" name="rating-2" aria-label="4 star"></div>
+                                    <div class="mask mask-star bg-orange-500" name="rating-5" aria-label="5 star"></div>
+                                </div>
+                                <p>(100 reviews)</p>
+                            </div>
+                            <h3 class="text-5xl font-bold">120</h3>
+                            <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg">Add to cart</button>
+                        </div>
+
+                        <!-- <h3>Rating: 4.7</h3> -->
+                    </div>
+                </div>
+                <p>
+                    description Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, dignissimos.
+                </p>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+
+    <script src="index.js"></script>
 </body>
 
 </html>

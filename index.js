@@ -9,11 +9,33 @@ let cart = []
 
 function addToCart(product) {
     console.log("adding", product)
+    const isExisting = cart?.find(item => item?.id === product?.id)
+    if (isExisting) {
+        isExisting.quantity += 1;
+    } else {
+        cart?.push({ quantity: 1, ...product })
+    }
+
     // cart = [product, ...cart]
-    cart?.push(product)
-    console.log("Current Cart Content:", cart);
+    console.log("Current Cart Content :", cart);
     console.log("Cart Length:", cart.length);
-    displayCartLength(cart?.length)
+    displayCartLength(cart?.reduce((sum, curr) => sum + curr?.quantity, 0))
+}
+
+function incQuantity(id) {
+    console.log("increasing", cart)
+    const targetItem = cart?.find(item => item?.id === id)
+    if (!targetItem) { return }
+    targetItem.quantity += 1
+    displayCartItems()
+}
+
+function decQuantity(id) {
+    console.log("decreasing", cart)
+    const targetItem = cart?.find(item => item?.id === id)
+    if (!targetItem) { return }
+    targetItem.quantity -= 1
+    displayCartItems()
 }
 
 async function loadCategories() {
@@ -249,7 +271,33 @@ function displayCartLength(length) {
         badge.innerHTML = ""
         badge.innerText = length
     })
-
+}
+function displayCartItems() {
+    const cartItemsContainer = document.getElementById("cartItems")
+    cartItemsContainer.innerHTML = ""
+    cart?.forEach(item => {
+        const cartCard = document?.createElement("div")
+        cartCard.innerHTML = `
+                <div class="card card-side bg-base-100 shadow-sm">
+                    <figure class="px-3">
+                        <img src=${item.image} class="h-24 w-24 rounded-md object-contain" alt="Movie" />
+                    </figure>
+                    <div class="card-body flex flex-row items-center justify-between">
+                        <div class="space-y-2">
+                            <h2 class="text-base font-semibold">${item.title}</h2>
+                            <div class="flex items-center">
+                                <button class="btn btn-xs" onclick="decQuantity(${item?.id})">-</button>
+                                <div id="qIndicator" class="badge badge-soft badge-primary">Quantity: ${item?.quantity}</div>
+                                <button class="btn btn-xs" onclick="incQuantity(${item?.id})">+</button>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-trash-can" style="color: rgba(87, 82, 99, 1.00);"></i>
+                    </div>
+                </div>
+        `
+        cartItemsContainer.append(cartCard)
+    })
+    my_modal.showModal()
 }
 
 

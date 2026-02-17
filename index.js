@@ -28,14 +28,29 @@ function incQuantity(id) {
     if (!targetItem) { return }
     targetItem.quantity += 1
     displayCartItems()
+    displayCartLength(cart?.reduce((sum, curr) => sum + curr?.quantity, 0))
 }
 
 function decQuantity(id) {
     console.log("decreasing", cart)
     const targetItem = cart?.find(item => item?.id === id)
     if (!targetItem) { return }
-    targetItem.quantity -= 1
+    if (targetItem?.quantity > 1) {
+        targetItem.quantity -= 1
+    } else {
+        cart = cart.filter(item => item.id !== id)
+    }
+
     displayCartItems()
+    displayCartLength(cart?.reduce((sum, curr) => sum + curr?.quantity, 0))
+}
+
+function deleteFromCart(id) {
+    const targetItem = cart?.find(item => item?.id === id)
+    if (!targetItem) { return }
+    cart = cart.filter(item => item.id !== id)
+    displayCartItems()
+    displayCartLength(cart?.reduce((sum, curr) => sum + curr?.quantity, 0))
 }
 
 async function loadCategories() {
@@ -275,27 +290,41 @@ function displayCartLength(length) {
 function displayCartItems() {
     const cartItemsContainer = document.getElementById("cartItems")
     cartItemsContainer.innerHTML = ""
+    const subtotal = cart?.reduce((sum, item) => item?.price * item?.quantity + sum, 0)
     cart?.forEach(item => {
         const cartCard = document?.createElement("div")
-        cartCard.innerHTML = `
-                <div class="card card-side bg-base-100 shadow-sm">
-                    <figure class="px-3">
-                        <img src=${item.image} class="h-24 w-24 rounded-md object-contain" alt="Movie" />
-                    </figure>
-                    <div class="card-body flex flex-row items-center justify-between">
-                        <div class="space-y-2">
-                            <h2 class="text-base font-semibold">${item.title}</h2>
-                            <div class="flex items-center">
-                                <button class="btn btn-xs" onclick="decQuantity(${item?.id})">-</button>
-                                <div id="qIndicator" class="badge badge-soft badge-primary">Quantity: ${item?.quantity}</div>
-                                <button class="btn btn-xs" onclick="incQuantity(${item?.id})">+</button>
+        if (cart?.length) {
+            cartCard.innerHTML = `
+                    <div class="card card-side bg-base-100 shadow-sm">
+                        <figure class="px-3">
+                            <img src=${item.image} class="h-24 w-24 rounded-md object-contain" alt="Movie" />
+                        </figure>
+                        <div class="card-body flex flex-row items-center justify-between">
+                            <div class="space-y-2">
+                                <h2 class="text-base font-semibold">${item.title}</h2>
+                                <div class="flex items-center">
+                                    <button class="btn btn-xs" onclick="decQuantity(${item?.id})">-</button>
+                                    <div id="qIndicator" class="badge badge-soft badge-primary">Quantity: ${item?.quantity}</div>
+                                    <button class="btn btn-xs " onclick="incQuantity(${item?.id})">+</button>
+                                </div>
                             </div>
+                            <button class="btn btn-xs" onclick="deleteFromCart(${item?.id})">
+                                <i  class="fa-regular fa-trash-can" style="color: rgba(87, 82, 99, 1.00);"></i>
+                            </button>
                         </div>
-                        <i class="fa-regular fa-trash-can" style="color: rgba(87, 82, 99, 1.00);"></i>
                     </div>
-                </div>
-        `
-        cartItemsContainer.append(cartCard)
+            `
+
+            const subtotalContainer = document.getElementById("subtotalContainer")
+            subtotalContainer.innerHTML = `<h3 class="text-lg font-bold">Total Price: ${subtotal}</h3>`
+
+            cartItemsContainer.append(cartCard)
+        } else {
+            cartCard.innerHTML = `
+            <h3 class="text-center text-lg font-medium">No items here...</h3>
+            `
+            cartItemsContainer.append(cartCard)
+        }
     })
     my_modal.showModal()
 }

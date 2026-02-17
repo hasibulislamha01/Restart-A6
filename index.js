@@ -4,7 +4,17 @@
  * -----------------------------------------------------------
  */
 
-// let cart = []
+let cart = []
+
+
+function addToCart(product) {
+    console.log("adding", product)
+    // cart = [product, ...cart]
+    cart?.push(product)
+    console.log("Current Cart Content:", cart);
+    console.log("Cart Length:", cart.length);
+    displayCartLength(cart?.length)
+}
 
 async function loadCategories() {
     try {
@@ -97,20 +107,25 @@ function displayTopRated(topRatedProducts) {
                 </div>
                 <h2 class="card-title">${prodName}</h2>
                 <p>${description}</p>
-                <div class="card-actions mt-3 flex items-center justify-evenly *:h-8 *:w-32">
+                <div id="prodCard_${product?.id}" class="card-actions mt-3 flex items-center justify-evenly *:h-8 *:w-32">
                     
                     <button
-        class="btn btn-outline text-gray-600 hover:text-black hover:scale-95 active:scale-90 transition-all duration-200"
-        onclick="loadSpecificProduct(${product?.id})">
-        <i class="fa-regular fa-eye"></i>
-        Details
-    </button>                    
+                        class="btn btn-outline text-gray-600 hover:text-black hover:scale-95 active:scale-90 transition-all duration-200"
+                        onclick="loadSpecificProduct(${product?.id})">
+                        <i class="fa-regular fa-eye"></i>
+                        Details
+                    </button>                    
 
-                    <button class="btn bg-[rgb(var(--primary))] text-white hover:scale-95 active:scale-90 transition-all duration-200" onclick="()=>addToCart(${product})">ATC</button>
                 </div>
             </div>
         </div>
     `
+        const addToCartButton = document.createElement("button")
+        addToCartButton.className = "btn bg-[rgb(var(--primary))] text-white hover:scale-95 active:scale-90 transition-all duration-200"
+        addToCartButton.innerText = "Add to cart"
+        addToCartButton.onclick = () => addToCart(product)
+        topRatedCard.querySelector(`#prodCard_${product?.id}`).append(addToCartButton)
+
         topRatedContainer?.append(topRatedCard)
     })
 
@@ -151,7 +166,7 @@ const displayModal = (product) => {
 
                     <div class="h-full flex flex-col justify-between gap-3">
 
-                        <div class="badge badge-soft badge-info">${product?.category}</div>
+                        <div class="badge badge-soft badge-primary">${product?.category}</div>
                         <div class="space-y-2">
                             <h1 class="text-lg font-bold">${product?.title}</h1>
 
@@ -166,7 +181,7 @@ const displayModal = (product) => {
                                 </div>
                                 <p>${product?.rating?.count}</p>
                             </div>
-                            <h3 class="text-5xl font-bold">${product?.price}</h3>
+                            <h3 class="text-3xl font-bold">$${product?.price}</h3>
                         </div>
 
 
@@ -198,7 +213,7 @@ function displayProducts(products) {
             </figure>
             <div class="card-body">
                 <div class="flex items-center justify-between">
-                    <div class="badge badge-soft badge-info">${product?.category}</div>
+                    <div class="badge badge-soft badge-primary">${product?.category}</div>
                     <div>
                         <i class="fa-solid fa-star" style="color: rgba(230, 178, 26, 1.00);"></i>
                         ${product?.rating?.rate} (${product?.rating?.count})
@@ -206,28 +221,36 @@ function displayProducts(products) {
                 </div>
                 <h2 class="card-title">${prodName}</h2>
                 <p>${description}</p>
-                <div class="card-actions mt-3 flex items-center justify-evenly *:h-8 *:w-32">
+                <div id="prodCard_${product?.id}" class="card-actions mt-3 flex items-center justify-evenly *:h-8 *:w-32">
                     
                     <button
-        class="btn btn-outline text-gray-600 hover:text-black hover:scale-95 active:scale-90 transition-all duration-200"
-        onclick="loadSpecificProduct(${product?.id})">
-        <i class="fa-regular fa-eye"></i>
-        Details
-    </button>                    
-
-                    <button class="btn bg-[rgb(var(--primary))] text-white hover:scale-95 active:scale-90 transition-all duration-200" onclick="()=>addToCart(${product})">ATC</button>
+                        class="btn btn-outline text-gray-600 hover:text-black hover:scale-95 active:scale-90 transition-all duration-200"
+                        onclick="loadSpecificProduct(${product?.id})">
+                        <i class="fa-regular fa-eye"></i>
+                        Details
+                    </button>                    
                 </div>
             </div>
         </div>  
         `
+        const addToCartButton = document.createElement("button")
+        addToCartButton.className = "btn bg-[rgb(var(--primary))] text-white hover:scale-95 active:scale-90 transition-all duration-200"
+        addToCartButton.innerText = "Add to cart"
+        addToCartButton.onclick = () => addToCart(product)
+        prodCard.querySelector(`#prodCard_${product?.id}`).append(addToCartButton)
+
         prodContainer?.append(prodCard)
     })
 }
 
-function addToCart(product) {
-    cart.push(product)
-}
+function displayCartLength(length) {
+    const cartBadge = document.querySelectorAll("#cart")
+    cartBadge?.forEach(badge => {
+        badge.innerHTML = ""
+        badge.innerText = length
+    })
 
+}
 
 
 loadCategories()
